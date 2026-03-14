@@ -28,12 +28,18 @@ function validateUserBody(body, requirePassword = true) {
 
 router.get("/", async (req, res, next) => {
   try {
-    const users = await getAllUsers();
+    const users = await getAllUsers({
+      username: req.query.username,
+      email: req.query.email,
+    });
+
     res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 });
+
+
 
 router.get("/:id", async (req, res, next) => {
   try {

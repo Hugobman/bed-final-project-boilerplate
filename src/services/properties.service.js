@@ -37,11 +37,26 @@ const propertySelect = {
   },
 };
 
-export async function getAllProperties() {
+export async function getAllProperties(filters = {}) {
+  const where = {};
+
+  if (filters.location) {
+    where.location = {
+      equals: filters.location,
+    };
+  }
+
+  if (filters.pricePerNight) {
+    where.pricePerNight = Number(filters.pricePerNight);
+  }
+
   return prisma.property.findMany({
+    where: Object.keys(where).length ? where : undefined,
     select: propertySelect,
   });
 }
+
+
 
 export async function getPropertyById(id) {
   return prisma.property.findUnique({

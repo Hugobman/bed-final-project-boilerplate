@@ -33,11 +33,21 @@ const bookingSelect = {
   },
 };
 
-export async function getAllBookings() {
+export async function getAllBookings(filters = {}) {
+  const where = {};
+
+  if (filters.userId) {
+    where.userId = {
+      equals: filters.userId,
+    };
+  }
+
   return prisma.booking.findMany({
+    where: Object.keys(where).length ? where : undefined,
     select: bookingSelect,
   });
 }
+
 
 export async function getBookingById(id) {
   return prisma.booking.findUnique({

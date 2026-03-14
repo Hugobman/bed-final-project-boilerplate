@@ -32,12 +32,16 @@ function validateBookingBody(body) {
 
 router.get("/", async (req, res, next) => {
   try {
-    const bookings = await getAllBookings();
+    const bookings = await getAllBookings({
+      userId: req.query.userId,
+    });
+
     res.status(200).json(bookings);
   } catch (error) {
     next(error);
   }
 });
+
 
 router.get("/:id", async (req, res, next) => {
   try {

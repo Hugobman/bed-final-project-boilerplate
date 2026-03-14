@@ -34,12 +34,18 @@ function validatePropertyBody(body) {
 
 router.get("/", async (req, res, next) => {
   try {
-    const properties = await getAllProperties();
+    const properties = await getAllProperties({
+      location: req.query.location,
+      pricePerNight: req.query.pricePerNight,
+    });
+
     res.status(200).json(properties);
   } catch (error) {
     next(error);
   }
 });
+
+
 
 router.get("/:id", async (req, res, next) => {
   try {

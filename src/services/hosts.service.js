@@ -13,11 +13,19 @@ const hostSelect = {
   aboutMe: true,
 };
 
-export async function getAllHosts() {
+export async function getAllHosts(name) {
   return prisma.host.findMany({
+    where: name
+      ? {
+          name: {
+            equals: name,
+          },
+        }
+      : undefined,
     select: hostSelect,
   });
 }
+
 
 export async function getHostById(id) {
   return prisma.host.findUnique({

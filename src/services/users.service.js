@@ -12,11 +12,28 @@ const userSelect = {
   pictureUrl: true,
 };
 
-export async function getAllUsers() {
+export async function getAllUsers(filters = {}) {
+  const where = {};
+
+  if (filters.username) {
+    where.username = {
+      equals: filters.username,
+    };
+  }
+
+  if (filters.email) {
+    where.email = {
+      equals: filters.email,
+    };
+  }
+
   return prisma.user.findMany({
+    where: Object.keys(where).length ? where : undefined,
     select: userSelect,
   });
 }
+
+
 
 export async function getUserById(id) {
   return prisma.user.findUnique({
